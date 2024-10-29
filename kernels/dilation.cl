@@ -1,6 +1,6 @@
 __constant sampler_t sampler = CLK_NORMALIZED_COORDS_FALSE | CLK_ADDRESS_CLAMP_TO_EDGE | CLK_FILTER_NEAREST;
 
-__kernel void dilate(
+__kernel void dilation(
     IMAGE_src_TYPE  src,
     IMAGE_src_TYPE  strel,
     IMAGE_dst_TYPE  dst
