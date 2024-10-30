@@ -2,7 +2,7 @@ __constant sampler_t sampler = CLK_NORMALIZED_COORDS_FALSE | CLK_ADDRESS_CLAMP_T
 
 __kernel void binary_dilation(
     IMAGE_src_TYPE  src,
-    IMAGE_src_TYPE  strel,
+    IMAGE_src_TYPE  footprint,
     IMAGE_dst_TYPE  dst
 )
 {
@@ -17,19 +17,19 @@ __kernel void binary_dilation(
     return;
   }
 
-  const int strel_width  = GET_IMAGE_WIDTH(strel)  > 1 ? GET_IMAGE_WIDTH(strel)  : 0;
-  const int strel_height = GET_IMAGE_HEIGHT(strel) > 1 ? GET_IMAGE_HEIGHT(strel) : 0;
-  const int strel_depth  = GET_IMAGE_DEPTH(strel)  > 1 ? GET_IMAGE_DEPTH(strel)  : 0;
-  const int4 c = (int4){strel_width / 2, strel_height / 2, strel_depth / 2, 0};
-  const POS_strel_TYPE pos_strel = POS_strel_INSTANCE(c.x,c.y,c.z, 0);
+  const int footprint_width  = GET_IMAGE_WIDTH(footprint)  > 1 ? GET_IMAGE_WIDTH(footprint)  : 0;
+  const int footprint_height = GET_IMAGE_HEIGHT(footprint) > 1 ? GET_IMAGE_HEIGHT(footprint) : 0;
+  const int footprint_depth  = GET_IMAGE_DEPTH(footprint)  > 1 ? GET_IMAGE_DEPTH(footprint)  : 0;
+  const int4 c = (int4){footprint_width / 2, footprint_height / 2, footprint_depth / 2, 0};
+  const POS_footprint_TYPE pos_footprint = POS_footprint_INSTANCE(c.x,c.y,c.z, 0);
 
   for (int cz = -c.z; cz <= c.z; ++cz) {
     for (int cy = -c.y; cy <= c.y; ++cy) {
       for (int cx = -c.x; cx <= c.x; ++cx) {
 
-        POS_strel_TYPE coord_strel = pos_strel + POS_strel_INSTANCE(cx,cy,cz,0);
-        float strel_value = (float) READ_IMAGE(strel, sampler, coord_strel).x;
-        if (strel_value == 0) {
+        POS_footprint_TYPE coord_footprint = pos_footprint + POS_footprint_INSTANCE(cx,cy,cz,0);
+        float footprint_value = (float) READ_IMAGE(footprint, sampler, coord_footprint).x;
+        if (footprint_value == 0) {
           continue;
         }
 
