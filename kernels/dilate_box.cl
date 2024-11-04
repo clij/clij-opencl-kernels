@@ -14,9 +14,9 @@ __kernel void dilate_box(
   const POS_src_TYPE pos = POS_src_INSTANCE(x,y,z,0);
 
   int4 r = (int4){0,0,0,0};
-  if (GET_IMAGE_DEPTH(src)  > 1) { r.z = scalar0; }
-  if (GET_IMAGE_HEIGHT(src) > 1) { r.y = scalar1; }
-  if (GET_IMAGE_WIDTH(src)  > 1) { r.x = scalar2; }
+  if (GET_IMAGE_WIDTH(src)  > 1) { r.x = (scalar0-1)/2; }
+  if (GET_IMAGE_HEIGHT(src) > 1) { r.y = (scalar1-1)/2; }
+  if (GET_IMAGE_DEPTH(src)  > 1) { r.z = (scalar2-1)/2; }
 
   IMAGE_src_PIXEL_TYPE value = READ_IMAGE(src, sampler, pos).x;
   if (value != 0)
