@@ -2,7 +2,10 @@ __constant sampler_t sampler = CLK_NORMALIZED_COORDS_FALSE | CLK_ADDRESS_CLAMP_T
 
 __kernel void erode_box(
     IMAGE_src_TYPE  src,
-    IMAGE_dst_TYPE  dst
+    IMAGE_dst_TYPE  dst,
+    const int       scalar0,
+    const int       scalar1,
+    const int       scalar2
 )
 {
   const int x = get_global_id(0);
@@ -11,29 +14,36 @@ __kernel void erode_box(
   const POS_src_TYPE pos = POS_src_INSTANCE(x,y,z,0);
 
   int4 r = (int4){0,0,0,0};
-  if (GET_IMAGE_DEPTH(src)  > 1) { r.z = 1; }
-  if (GET_IMAGE_HEIGHT(src) > 1) { r.y = 1; }
-  if (GET_IMAGE_WIDTH(src)  > 1) { r.x = 1; }
+  if (GET_IMAGE_WIDTH(src)  > 1) { r.x = (scalar0-1)/2; }
+  if (GET_IMAGE_HEIGHT(src) > 1) { r.y = (scalar1-1)/2; }
+  if (GET_IMAGE_DEPTH(src)  > 1) { r.z = (scalar2-1)/2; }
 
-  float value = READ_IMAGE(src, sampler, pos).x;
-  if (value != 0) {
-        for (int dz = -r.z; dz <= r.z; ++dz) {
-      for (int dy = -r.y; dy <= r.y; ++dy) {
-    for (int dx = -r.x; dx <= r.x; ++dx) {
-          value = READ_IMAGE(src, sampler, pos + POS_src_INSTANCE(dx,dy,dz,0)).x;
-          if (value == 0) {
-            break;
-          }
-        }
+  IMAGE_src_PIXEL_TYPE value = READ_IMAGE(src, sampler, pos).x;
+  if (value == 0)
+  {
+    WRITE_IMAGE(dst, POS_dst_INSTANCE(x,y,z,0), CONVERT_dst_PIXEL_TYPE(0));
+    return;
+  }
+
+  for (int dz = -r.z; dz <= r.z; ++dz) {
+    for (int dy = -r.y; dy <= r.y; ++dy) {
+      for (int dx = -r.x; dx <= r.x; ++dx) {
+
+        value = READ_IMAGE(src, sampler, pos + POS_src_INSTANCE(dx,dy,dz,0)).x;
         if (value == 0) {
           break;
         }
+        
       }
       if (value == 0) {
         break;
       }
     }
+    if (value == 0) {
+      break;
+    }
   }
+  
 
   if (value != 0) {
     value = 1;
