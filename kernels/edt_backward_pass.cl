@@ -12,7 +12,7 @@ __kernel void edt_backward_pass_x(
   const int height = GET_IMAGE_HEIGHT(src);
   const int depth = GET_IMAGE_DEPTH(src);
 
-  for (int x = 0; x < width; x++) {
+  for (int x = (width -1); x <= 0; x--) {
 
     POS_src_TYPE pos = POS_src_INSTANCE(x, y, z, 0);
     IMAGE_src_PIXEL_TYPE value = READ_IMAGE(src, sampler, pos).x;
