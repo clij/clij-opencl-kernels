@@ -26,42 +26,42 @@ __kernel void edt_forward_pass_x(
       temp = READ_IMAGE(src, sampler, POS_src_INSTANCE(x - 1, y, z, 0)).x + 1;
       WRITE_IMAGE(src, pos, CONVERT_src_PIXEL_TYPE(min(value, temp)));
     }
-    if(y > 0)
-    {
-      value = READ_IMAGE(src, sampler, pos).x;
-      temp = READ_IMAGE(src, sampler, POS_src_INSTANCE(x, y - 1, z, 0)).x + 1;
-      WRITE_IMAGE(src, pos, CONVERT_src_PIXEL_TYPE(min(value, temp)));
-    }
-    if(z > 0)
-    {
-      value = READ_IMAGE(src, sampler, pos).x;
-      temp = READ_IMAGE(src, sampler, POS_src_INSTANCE(x, y, z - 1, 0)).x + 1;
-      WRITE_IMAGE(src, pos, CONVERT_src_PIXEL_TYPE(min(value, temp)));
-    }
-    if (x > 0 && y > 0) 
-    {
-      value = READ_IMAGE(src, sampler, pos).x;
-      temp = READ_IMAGE(src, sampler, POS_src_INSTANCE(x - 1, y - 1, z, 0)).x + 1;
-      WRITE_IMAGE(src, pos, CONVERT_src_PIXEL_TYPE(min(value, temp)));
-    }
-    if (x > 0 && z > 0) 
-    {
-      value = READ_IMAGE(src, sampler, pos).x;
-      temp = READ_IMAGE(src, sampler, POS_src_INSTANCE(x - 1, y, z - 1, 0)).x + 1;
-      WRITE_IMAGE(src, pos, CONVERT_src_PIXEL_TYPE(min(value, temp)));
-    }
-    if (y > 0 && z > 0) 
-    {
-      value = READ_IMAGE(src, sampler, pos).x;
-      temp = READ_IMAGE(src, sampler, POS_src_INSTANCE(x, y - 1, z - 1, 0)).x + 1;
-      WRITE_IMAGE(src, pos, CONVERT_src_PIXEL_TYPE(min(value, temp)));
-    }
-    if (x > 0 && y > 0 && z > 0) 
-    {
-      value = READ_IMAGE(src, sampler, pos).x;
-      temp = READ_IMAGE(src, sampler, POS_src_INSTANCE(x - 1, y - 1, z - 1, 0)).x + 1;
-      WRITE_IMAGE(src, pos, CONVERT_src_PIXEL_TYPE(min(value, temp)));
-    }
-    
+    // if(y > 0)
+    // {
+    //   value = READ_IMAGE(src, sampler, pos).x;
+    //   temp = READ_IMAGE(src, sampler, POS_src_INSTANCE(x, y - 1, z, 0)).x + 1;
+    //   WRITE_IMAGE(src, pos, CONVERT_src_PIXEL_TYPE(min(value, temp)));
+    // }
+    // if(z > 0)
+    // {
+    //   value = READ_IMAGE(src, sampler, pos).x;
+    //   temp = READ_IMAGE(src, sampler, POS_src_INSTANCE(x, y, z - 1, 0)).x + 1;
+    //   WRITE_IMAGE(src, pos, CONVERT_src_PIXEL_TYPE(min(value, temp)));
+    // }
+    // if (x > 0 && y > 0) 
+    // {
+    //   value = READ_IMAGE(src, sampler, pos).x;
+    //   temp = READ_IMAGE(src, sampler, POS_src_INSTANCE(x - 1, y - 1, z, 0)).x + 1;
+    //   WRITE_IMAGE(src, pos, CONVERT_src_PIXEL_TYPE(min(value, temp)));
+    // }
+    // if (x > 0 && z > 0) 
+    // {
+    //   value = READ_IMAGE(src, sampler, pos).x;
+    //   temp = READ_IMAGE(src, sampler, POS_src_INSTANCE(x - 1, y, z - 1, 0)).x + 1;
+    //   WRITE_IMAGE(src, pos, CONVERT_src_PIXEL_TYPE(min(value, temp)));
+    // }
+    // if (y > 0 && z > 0) 
+    // {
+    //   value = READ_IMAGE(src, sampler, pos).x;
+    //   temp = READ_IMAGE(src, sampler, POS_src_INSTANCE(x, y - 1, z - 1, 0)).x + 1;
+    //   WRITE_IMAGE(src, pos, CONVERT_src_PIXEL_TYPE(min(value, temp)));
+    // }
+    // if (x > 0 && y > 0 && z > 0) 
+    // {
+    //   value = READ_IMAGE(src, sampler, pos).x;
+    //   temp = READ_IMAGE(src, sampler, POS_src_INSTANCE(x - 1, y - 1, z - 1, 0)).x + 1;
+    //   WRITE_IMAGE(src, pos, CONVERT_src_PIXEL_TYPE(min(value, temp)));
+    // }
+
   }
 }
