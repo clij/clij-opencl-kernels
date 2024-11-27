@@ -12,11 +12,10 @@ __kernel void edt_pass_x(
   const int height = GET_IMAGE_HEIGHT(src);
   const int depth = GET_IMAGE_DEPTH(src);
 
-  IMAGE_src_PIXEL_TYPE value;
   for (int x = 0; x < width; x++) {
 
     const POS_src_TYPE pos = POS_src_INSTANCE(x, y, z, 0);
-    value = READ_IMAGE(src, sampler, pos).x;
+    IMAGE_src_PIXEL_TYPE value = READ_IMAGE(src, sampler, pos).x;
     if (value == 0) continue;
 
     if(x > 0)
@@ -25,13 +24,13 @@ __kernel void edt_pass_x(
       value = min(value, temp);
     }
 
+    WRITE_IMAGE(src, pos, CONVERT_src_PIXEL_TYPE(value));
   }
-  WRITE_IMAGE(src, pos, CONVERT_src_PIXEL_TYPE(value));
 
   for (int x = 0; x < width; x++) {
 
     const POS_src_TYPE pos = POS_src_INSTANCE(x, y, z, 0);
-    value = READ_IMAGE(src, sampler, pos).x;
+    IMAGE_src_PIXEL_TYPE value = READ_IMAGE(src, sampler, pos).x;
     if (value == 0) continue;
 
     if(x < (width - 1))
@@ -39,8 +38,9 @@ __kernel void edt_pass_x(
       IMAGE_src_PIXEL_TYPE temp = READ_IMAGE(src, sampler, POS_src_INSTANCE(x + 1, y, z, 0)).x + 1;
       value = min(value, temp);
     }
-  }
+
   WRITE_IMAGE(src, pos, CONVERT_src_PIXEL_TYPE(value));
+  }
 }
 
 __kernel void edt_pass_y(
@@ -55,11 +55,10 @@ __kernel void edt_pass_y(
   const int height = GET_IMAGE_HEIGHT(src);
   const int depth = GET_IMAGE_DEPTH(src);
 
-  IMAGE_src_PIXEL_TYPE value;
   for (int y = 0; x < height; y++) {
 
     const POS_src_TYPE pos = POS_src_INSTANCE(x, y, z, 0);
-    value = READ_IMAGE(src, sampler, pos).x;
+    IMAGE_src_PIXEL_TYPE value = READ_IMAGE(src, sampler, pos).x;
     if (value == 0) continue;
 
     if(y > 0)
@@ -68,13 +67,13 @@ __kernel void edt_pass_y(
       value = min(value, temp);
     }
 
-  }
   WRITE_IMAGE(src, pos, CONVERT_src_PIXEL_TYPE(value));
+  }
 
   for (int y = 0; x < height; y++) {
 
     const POS_src_TYPE pos = POS_src_INSTANCE(x, y, z, 0);
-    value = READ_IMAGE(src, sampler, pos).x;
+    IMAGE_src_PIXEL_TYPE value = READ_IMAGE(src, sampler, pos).x;
     if (value == 0) continue;
 
     if(y < (height - 1))
@@ -82,8 +81,9 @@ __kernel void edt_pass_y(
       IMAGE_src_PIXEL_TYPE temp = READ_IMAGE(src, sampler, POS_src_INSTANCE(x, y + 1, z, 0)).x + 1;
       value = min(value, temp);
     }
-  }
+
   WRITE_IMAGE(src, pos, CONVERT_src_PIXEL_TYPE(value));
+  }
 }
 
 __kernel void edt_pass_z(
@@ -98,11 +98,10 @@ __kernel void edt_pass_z(
   const int height = GET_IMAGE_HEIGHT(src);
   const int depth = GET_IMAGE_DEPTH(src);
 
-  IMAGE_src_PIXEL_TYPE value;
   for (int z = 0; z < depth; z++) {
 
     const POS_src_TYPE pos = POS_src_INSTANCE(x, y, z, 0);
-    value = READ_IMAGE(src, sampler, pos).x;
+    IMAGE_src_PIXEL_TYPE value = READ_IMAGE(src, sampler, pos).x;
     if (value == 0) continue;
 
     if(z > 0)
@@ -111,13 +110,13 @@ __kernel void edt_pass_z(
       value = min(value, temp);
     }
 
-  }
   WRITE_IMAGE(src, pos, CONVERT_src_PIXEL_TYPE(value));
+  }
 
   for (int z = 0; z < depth; z++) {
 
     const POS_src_TYPE pos = POS_src_INSTANCE(x, y, z, 0);
-    value = READ_IMAGE(src, sampler, pos).x;
+    IMAGE_src_PIXEL_TYPE value = READ_IMAGE(src, sampler, pos).x;
     if (value == 0) continue;
 
     if(z < (depth - 1))
@@ -125,6 +124,7 @@ __kernel void edt_pass_z(
       IMAGE_src_PIXEL_TYPE temp = READ_IMAGE(src, sampler, POS_src_INSTANCE(x, y, z + 1, 0)).x + 1;
       value = min(value, temp);
     }
-  }
+    
   WRITE_IMAGE(src, pos, CONVERT_src_PIXEL_TYPE(value));
+  }
 }
