@@ -27,7 +27,7 @@ __kernel void edt_pass_x(
     WRITE_IMAGE(src, pos, CONVERT_src_PIXEL_TYPE(value));
   }
 
-  for (int x = width; x > 0 ; x--) {
+  for (int x = width; x >= 0 ; x--) {
 
     const POS_src_TYPE pos = POS_src_INSTANCE(x, y, z, 0);
     IMAGE_src_PIXEL_TYPE value = READ_IMAGE(src, sampler, pos).x;
@@ -70,7 +70,7 @@ __kernel void edt_pass_y(
   WRITE_IMAGE(src, pos, CONVERT_src_PIXEL_TYPE(value));
   }
 
-  for (int y = height; x > 0; y--) {
+  for (int y = height; x >= 0; y--) {
 
     const POS_src_TYPE pos = POS_src_INSTANCE(x, y, z, 0);
     IMAGE_src_PIXEL_TYPE value = READ_IMAGE(src, sampler, pos).x;
@@ -113,7 +113,7 @@ __kernel void edt_pass_z(
   WRITE_IMAGE(src, pos, CONVERT_src_PIXEL_TYPE(value));
   }
 
-  for (int z = depth; z > 0; z--) {
+  for (int z = depth; z >= 0; z--) {
 
     const POS_src_TYPE pos = POS_src_INSTANCE(x, y, z, 0);
     IMAGE_src_PIXEL_TYPE value = READ_IMAGE(src, sampler, pos).x;
