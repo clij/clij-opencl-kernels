@@ -15,51 +15,27 @@ __kernel void edt_forward_pass(
   const POS_src_TYPE pos = POS_src_INSTANCE(x, y, z, 0);
   IMAGE_src_PIXEL_TYPE value = READ_IMAGE(src, sampler, pos).x;
   IMAGE_src_PIXEL_TYPE temp = 0;
-  if (value == 0) {
-    return;
-  }
+
+  if (x >= width || y >= height) return;
+  if (value == 0)  return;
+
   if(x > 0)
   {
-    value = READ_IMAGE(src, sampler, pos).x;
     temp = READ_IMAGE(src, sampler, POS_src_INSTANCE(x - 1, y, z, 0)).x + 1;
-    WRITE_IMAGE(src, pos, CONVERT_src_PIXEL_TYPE(min(value, temp)));
+    value = min(value, temp);
   }
   if(y > 0)
   {
-    value = READ_IMAGE(src, sampler, pos).x;
     temp = READ_IMAGE(src, sampler, POS_src_INSTANCE(x, y - 1, z, 0)).x + 1;
-    WRITE_IMAGE(src, pos, CONVERT_src_PIXEL_TYPE(min(value, temp)));
+    value = min(value, temp);
   }
   if(z > 0)
   {
-    value = READ_IMAGE(src, sampler, pos).x;
     temp = READ_IMAGE(src, sampler, POS_src_INSTANCE(x, y, z - 1, 0)).x + 1;
-    WRITE_IMAGE(src, pos, CONVERT_src_PIXEL_TYPE(min(value, temp)));
+    value = min(value, temp);
   }
-  if (x > 0 && y > 0) 
-  {
-    value = READ_IMAGE(src, sampler, pos).x;
-    temp = READ_IMAGE(src, sampler, POS_src_INSTANCE(x - 1, y - 1, z, 0)).x + 1;
-    WRITE_IMAGE(src, pos, CONVERT_src_PIXEL_TYPE(min(value, temp)));
-  }
-  if (x > 0 && z > 0) 
-  {
-    value = READ_IMAGE(src, sampler, pos).x;
-    temp = READ_IMAGE(src, sampler, POS_src_INSTANCE(x - 1, y, z - 1, 0)).x + 1;
-    WRITE_IMAGE(src, pos, CONVERT_src_PIXEL_TYPE(min(value, temp)));
-  }
-  if (y > 0 && z > 0) 
-  {
-    value = READ_IMAGE(src, sampler, pos).x;
-    temp = READ_IMAGE(src, sampler, POS_src_INSTANCE(x, y - 1, z - 1, 0)).x + 1;
-    WRITE_IMAGE(src, pos, CONVERT_src_PIXEL_TYPE(min(value, temp)));
-  }
-  if (x > 0 && y > 0 && z > 0) 
-  {
-    value = READ_IMAGE(src, sampler, pos).x;
-    temp = READ_IMAGE(src, sampler, POS_src_INSTANCE(x - 1, y - 1, z - 1, 0)).x + 1;
-    WRITE_IMAGE(src, pos, CONVERT_src_PIXEL_TYPE(min(value, temp)));
-  }
+    
+  WRITE_IMAGE(src, pos, CONVERT_src_PIXEL_TYPE(value));
 }
 
 
@@ -75,51 +51,27 @@ __kernel void edt_backward_pass(
   const int height = GET_IMAGE_HEIGHT(src);
   const int depth = GET_IMAGE_DEPTH(src);
 
-  POS_src_TYPE pos = POS_src_INSTANCE(x, y, z, 0);
+  const POS_src_TYPE pos = POS_src_INSTANCE(x, y, z, 0);
   IMAGE_src_PIXEL_TYPE value = READ_IMAGE(src, sampler, pos).x;
   IMAGE_src_PIXEL_TYPE temp = 0;
-  if (value == 0) {
-    return;
-  }
+
+  if (x >= width || y >= height) return;
+  if (value == 0)  return;
+
   if(x < (width - 1))
   {
-    value = READ_IMAGE(src, sampler, pos).x;
     temp = READ_IMAGE(src, sampler, POS_src_INSTANCE(x + 1, y, z, 0)).x + 1;
-    WRITE_IMAGE(src, pos, CONVERT_src_PIXEL_TYPE(min(value, temp)));
+    value = min(value, temp);
   }
   if(y < (height - 1))
   {
-    value = READ_IMAGE(src, sampler, pos).x;
     temp = READ_IMAGE(src, sampler, POS_src_INSTANCE(x, y + 1, z, 0)).x + 1;
-    WRITE_IMAGE(src, pos, CONVERT_src_PIXEL_TYPE(min(value, temp)));
+    value = min(value, temp);
   }
   if(z < (depth - 1))
   {
-    value = READ_IMAGE(src, sampler, pos).x;
     temp = READ_IMAGE(src, sampler, POS_src_INSTANCE(x, y, z + 1, 0)).x + 1;
-    WRITE_IMAGE(src, pos, CONVERT_src_PIXEL_TYPE(min(value, temp)));
+    value = min(value, temp);
   }
-  if (x < width - 1 && y < height - 1) {
-    value = READ_IMAGE(src, sampler, pos).x;
-    temp = READ_IMAGE(src, sampler, POS_src_INSTANCE(x+1, y + 1, z, 0)).x + 1;
-    WRITE_IMAGE(src, pos, CONVERT_src_PIXEL_TYPE(min(value, temp)));
-  }
-  if (x < width - 1 && z < depth - 1) 
-  {
-    value = READ_IMAGE(src, sampler, pos).x;
-    temp = READ_IMAGE(src, sampler, POS_src_INSTANCE(x+1, y, z + 1, 0)).x + 1;
-    WRITE_IMAGE(src, pos, CONVERT_src_PIXEL_TYPE(min(value, temp)));
-  }
-  if (y < height - 1 && z < depth - 1) 
-  {
-    value = READ_IMAGE(src, sampler, pos).x;
-    temp = READ_IMAGE(src, sampler, POS_src_INSTANCE(x, y + 1, z + 1, 0)).x + 1;
-    WRITE_IMAGE(src, pos, CONVERT_src_PIXEL_TYPE(min(value, temp)));
-  }
-  if (x < width - 1 && y < height - 1 && z < depth - 1) 
-  {
-    value = READ_IMAGE(src, sampler, pos).x;
-    temp = READ_IMAGE(src, sampler, POS_src_INSTANCE(x + 1, y + 1, z + 1, 0)).x + 1;
-    WRITE_IMAGE(src, pos, CONVERT_src_PIXEL_TYPE(min(value, temp)));
-  }
+  WRITE_IMAGE(src, pos, CONVERT_src_PIXEL_TYPE(value));
 }
