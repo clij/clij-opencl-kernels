@@ -4,7 +4,6 @@ __kernel void edt_pass_x(
     IMAGE_src_TYPE  src
 )
 {
-  // const int x = get_global_id(0);
   const int y = get_global_id(1);
   const int z = get_global_id(2);
 
@@ -48,14 +47,13 @@ __kernel void edt_pass_y(
 )
 {
   const int x = get_global_id(0);
-//   const int y = get_global_id(1);
   const int z = get_global_id(2);
 
   const int width = GET_IMAGE_WIDTH(src);
   const int height = GET_IMAGE_HEIGHT(src);
   const int depth = GET_IMAGE_DEPTH(src);
 
-  for (int y = 0; x <= height; y++) {
+  for (int y = 0; y <= height; y++) {
 
     const POS_src_TYPE pos = POS_src_INSTANCE(x, y, z, 0);
     IMAGE_src_PIXEL_TYPE value = READ_IMAGE(src, sampler, pos).x;
@@ -67,10 +65,10 @@ __kernel void edt_pass_y(
       value = min(value, temp);
     }
 
-  WRITE_IMAGE(src, pos, CONVERT_src_PIXEL_TYPE(value));
+    WRITE_IMAGE(src, pos, CONVERT_src_PIXEL_TYPE(value));
   }
 
-  for (int y = height; x >= 0; y--) {
+  for (int y = height; y >= 0; y--) {
 
     const POS_src_TYPE pos = POS_src_INSTANCE(x, y, z, 0);
     IMAGE_src_PIXEL_TYPE value = READ_IMAGE(src, sampler, pos).x;
@@ -82,7 +80,7 @@ __kernel void edt_pass_y(
       value = min(value, temp);
     }
 
-  WRITE_IMAGE(src, pos, CONVERT_src_PIXEL_TYPE(value));
+    WRITE_IMAGE(src, pos, CONVERT_src_PIXEL_TYPE(value));
   }
 }
 
@@ -92,7 +90,6 @@ __kernel void edt_pass_z(
 {
   const int x = get_global_id(0);
   const int y = get_global_id(1);
-//   const int z = get_global_id(2);
 
   const int width = GET_IMAGE_WIDTH(src);
   const int height = GET_IMAGE_HEIGHT(src);
