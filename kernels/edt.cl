@@ -12,10 +12,11 @@ __kernel void edt_pass_x(
   const int height = GET_IMAGE_HEIGHT(src);
   const int depth = GET_IMAGE_DEPTH(src);
 
+  IMAGE_src_PIXEL_TYPE value;
   for (int x = 0; x < width; x++) {
 
     const POS_src_TYPE pos = POS_src_INSTANCE(x, y, z, 0);
-    IMAGE_src_PIXEL_TYPE value = READ_IMAGE(src, sampler, pos).x;
+    value = READ_IMAGE(src, sampler, pos).x;
     if (value == 0) continue;
 
     if(x > 0)
@@ -30,7 +31,7 @@ __kernel void edt_pass_x(
   for (int x = 0; x < width; x++) {
 
     const POS_src_TYPE pos = POS_src_INSTANCE(x, y, z, 0);
-    IMAGE_src_PIXEL_TYPE value = READ_IMAGE(src, sampler, pos).x;
+    value = READ_IMAGE(src, sampler, pos).x;
     if (value == 0) continue;
 
     if(x < (width - 1))
@@ -54,10 +55,11 @@ __kernel void edt_pass_y(
   const int height = GET_IMAGE_HEIGHT(src);
   const int depth = GET_IMAGE_DEPTH(src);
 
+  IMAGE_src_PIXEL_TYPE value;
   for (int y = 0; x < height; y++) {
 
     const POS_src_TYPE pos = POS_src_INSTANCE(x, y, z, 0);
-    IMAGE_src_PIXEL_TYPE value = READ_IMAGE(src, sampler, pos).x;
+    value = READ_IMAGE(src, sampler, pos).x;
     if (value == 0) continue;
 
     if(y > 0)
@@ -72,7 +74,7 @@ __kernel void edt_pass_y(
   for (int y = 0; x < height; y++) {
 
     const POS_src_TYPE pos = POS_src_INSTANCE(x, y, z, 0);
-    IMAGE_src_PIXEL_TYPE value = READ_IMAGE(src, sampler, pos).x;
+    value = READ_IMAGE(src, sampler, pos).x;
     if (value == 0) continue;
 
     if(y < (height - 1))
@@ -96,10 +98,11 @@ __kernel void edt_pass_z(
   const int height = GET_IMAGE_HEIGHT(src);
   const int depth = GET_IMAGE_DEPTH(src);
 
+  IMAGE_src_PIXEL_TYPE value;
   for (int z = 0; z < depth; z++) {
 
     const POS_src_TYPE pos = POS_src_INSTANCE(x, y, z, 0);
-    IMAGE_src_PIXEL_TYPE value = READ_IMAGE(src, sampler, pos).x;
+    value = READ_IMAGE(src, sampler, pos).x;
     if (value == 0) continue;
 
     if(z > 0)
@@ -114,7 +117,7 @@ __kernel void edt_pass_z(
   for (int z = 0; z < depth; z++) {
 
     const POS_src_TYPE pos = POS_src_INSTANCE(x, y, z, 0);
-    IMAGE_src_PIXEL_TYPE value = READ_IMAGE(src, sampler, pos).x;
+    value = READ_IMAGE(src, sampler, pos).x;
     if (value == 0) continue;
 
     if(z < (depth - 1))
