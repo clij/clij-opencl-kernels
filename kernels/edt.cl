@@ -12,7 +12,7 @@ __kernel void edt_pass_x(
   const int height = GET_IMAGE_HEIGHT(src);
   const int depth = GET_IMAGE_DEPTH(src);
 
-  for (int x = 0; x < width; x++) {
+  for (int x = 0; x <= width; x++) {
 
     const POS_src_TYPE pos = POS_src_INSTANCE(x, y, z, 0);
     IMAGE_src_PIXEL_TYPE value = READ_IMAGE(src, sampler, pos).x;
@@ -27,7 +27,7 @@ __kernel void edt_pass_x(
     WRITE_IMAGE(src, pos, CONVERT_src_PIXEL_TYPE(value));
   }
 
-  for (int x = 0; x < width; x++) {
+  for (int x = width; x > 0 ; x--) {
 
     const POS_src_TYPE pos = POS_src_INSTANCE(x, y, z, 0);
     IMAGE_src_PIXEL_TYPE value = READ_IMAGE(src, sampler, pos).x;
@@ -55,7 +55,7 @@ __kernel void edt_pass_y(
   const int height = GET_IMAGE_HEIGHT(src);
   const int depth = GET_IMAGE_DEPTH(src);
 
-  for (int y = 0; x < height; y++) {
+  for (int y = 0; x <= height; y++) {
 
     const POS_src_TYPE pos = POS_src_INSTANCE(x, y, z, 0);
     IMAGE_src_PIXEL_TYPE value = READ_IMAGE(src, sampler, pos).x;
@@ -70,7 +70,7 @@ __kernel void edt_pass_y(
   WRITE_IMAGE(src, pos, CONVERT_src_PIXEL_TYPE(value));
   }
 
-  for (int y = 0; x < height; y++) {
+  for (int y = height; x > 0; y--) {
 
     const POS_src_TYPE pos = POS_src_INSTANCE(x, y, z, 0);
     IMAGE_src_PIXEL_TYPE value = READ_IMAGE(src, sampler, pos).x;
@@ -98,7 +98,7 @@ __kernel void edt_pass_z(
   const int height = GET_IMAGE_HEIGHT(src);
   const int depth = GET_IMAGE_DEPTH(src);
 
-  for (int z = 0; z < depth; z++) {
+  for (int z = 0; z <= depth; z++) {
 
     const POS_src_TYPE pos = POS_src_INSTANCE(x, y, z, 0);
     IMAGE_src_PIXEL_TYPE value = READ_IMAGE(src, sampler, pos).x;
@@ -113,7 +113,7 @@ __kernel void edt_pass_z(
   WRITE_IMAGE(src, pos, CONVERT_src_PIXEL_TYPE(value));
   }
 
-  for (int z = 0; z < depth; z++) {
+  for (int z = depth; z > 0; z--) {
 
     const POS_src_TYPE pos = POS_src_INSTANCE(x, y, z, 0);
     IMAGE_src_PIXEL_TYPE value = READ_IMAGE(src, sampler, pos).x;
@@ -124,7 +124,7 @@ __kernel void edt_pass_z(
       IMAGE_src_PIXEL_TYPE temp = READ_IMAGE(src, sampler, POS_src_INSTANCE(x, y, z + 1, 0)).x + 1;
       value = min(value, temp);
     }
-    
+
   WRITE_IMAGE(src, pos, CONVERT_src_PIXEL_TYPE(value));
   }
 }
